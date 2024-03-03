@@ -8,7 +8,7 @@ makedocs(;
     authors="The ClimFlows contributors",
     sitename="ClimFlowsTestCases.jl",
     format=Documenter.HTML(;
-        canonical="https://dubosipsl.github.io/ClimFlowsTestCases.jl",
+        canonical="https://ClimFlows.github.io/ClimFlowsTestCases.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -18,6 +18,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/dubosipsl/ClimFlowsTestCases.jl",
+    repo="github.com/ClimFLows/ClimFlowsTestCases.jl",
     devbranch="main",
 )

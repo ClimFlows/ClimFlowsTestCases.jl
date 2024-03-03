@@ -20,6 +20,7 @@ function check_values(case::TC.TestCaseHPE, F)
 end
 
 @testset "ClimFlowsTestCases.jl" begin
+    @test check_case(TC.Williamson91{2})
     @test check_case(TC.Williamson91{6})
     @test check_case(TC.Jablonowski06)
     @test check_case(TC.DCMIP{42})
