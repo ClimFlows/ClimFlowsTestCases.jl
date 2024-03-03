@@ -57,8 +57,26 @@ end # priv
 using .priv
 
 # it would be simpler to export these types from priv, but it would not make them visible via TAB completion
+"""
+    struct Williamson91{N} <: TestCaseSW
+
+Williamson (1991) test cases. Currently only N=6 is implemented.
+"""
 const Williamson91 = priv.Williamson91
+
+"""
+    struct DCMIP{N} <: TestCaseHPE
+
+DCMIP 2012 test cases. Currently only N=42 (test case 4.2) is implemented.
+"""
 const DCMIP = priv.DCMIP
+
+
+"""
+    struct Jablonowski06{P} <: TestCaseHPE
+
+Jablonowski (2006) and DCMIP 4.2 test cases (dry vs. moist). The only difference is specific humidity is included for the moist case.
+"""
 const Jablonowski06 = priv.Jablonowski06
 
 end # module

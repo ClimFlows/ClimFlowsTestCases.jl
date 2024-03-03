@@ -10,5 +10,5 @@ Documentation for [ClimFlowsTestCases](https://github.com/ClimFLows/ClimFlowsTes
 ```
 
 ```@autodocs
-Modules = [ClimFlowsTestCases, ClimFlowsTestCases.priv]
+Modules = [ClimFlowsTestCases]
 ```

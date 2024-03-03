@@ -1,7 +1,3 @@
-"""
-    Williamson91{N}
-Type for Williamson (1991) test cases. Currently only N=6 is implemented.
-"""
 struct Williamson91{N,P} <: TestCaseSW
     params::P
     # The syntax params[(...)] extracts only the parameters relevant for the test case

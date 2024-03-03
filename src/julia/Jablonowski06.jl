@@ -1,9 +1,5 @@
 #============== Jablonowski (2006) baroclinic instability test cases ===============#
 
-"""
-    Jablonowski06
-Type for Jablonowski (2006) and DCMIP 4.2 test cases (dry vs. moist). The only difference is specific humidity is included for the moist case.
-"""
 struct Jablonowski06{P} <: TestCaseHPE
     params::P
     function Jablonowski06(params)
