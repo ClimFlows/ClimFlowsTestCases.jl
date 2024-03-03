@@ -1,0 +1,3 @@
+[deps]
+ClimFlowsTestCases = "55a4ed1b-ebae-44a5-bd1f-98d158431b8a"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
