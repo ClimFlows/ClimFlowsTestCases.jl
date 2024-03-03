@@ -35,9 +35,7 @@ function describe end
 
 Base.show(io::IO, case::TestCase) = print(io, describe(case))
 
-"""
-Implementation details that may change between non-breaking versions.
-"""
+# Implementation details that may change between non-breaking versions.
 module priv
 
 using ..ClimFlowsTestCases: TestCase, TestCaseSW, TestCaseHPE
