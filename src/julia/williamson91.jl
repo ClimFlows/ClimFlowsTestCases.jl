@@ -32,7 +32,7 @@ function initial_flow(lon, lat, case::W91_6)
     C = 0.25*(K^2)*(cos(lat)^(2*n))*((n+1)*cos(lat)^2 - (n+2) )
     gH = gH0 + (R0^2)*(A  + B*cos(n*lon) + C*cos(2*n*lon))
 
-    return u, v, gH
+    return gH, u, v
 end
 
 const W91_2 = Williamson91{2}
@@ -45,5 +45,5 @@ function initial_flow(lon, lat, case::W91_2)
     u = u0*( cos(lat)*cos(alpha) + cos(lon)*sin(lat)*sin(alpha) )
     v = -u0*sin(lon)*sin(alpha)
     gH = gH0 - ( R0*Omega*u0 + u0^2/2 )*( sin(lat)*cos(alpha) - cos(lon)*cos(lat)*sin(alpha) )^2
-    return u, v, gH
+    return gH, u, v
 end

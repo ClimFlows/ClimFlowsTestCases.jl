@@ -25,12 +25,42 @@ More about named tuples [here](https://stackoverflow.com/questions/60883704/how-
 """
 function default_params() end
 
+"""
+    case = default_testcase(Case::Type, F=Float64)
+    w91_6 = default_testcase(Williamson91{6}, Float32)
+
+Returns `case`, the test case with default parameters for case `Case`.
+"""
 function default_testcase(Case::Type{TC}, F::Type{FF}=Float64) where { TC<:TestCase, FF<:Real }
     Case(map(F, default_params(Case)))
 end
 
+"""
+    ulon, ulat, gH = initial_flow(lon, lat, case::TestCaseSW)
+
+For a shallow-water test case, returns the initial geopotential thickness and velocity
+at given latitude and longitude.
+
+    gH, ulon, ulat, q = initial_flow(lon, lat, p, case::TestCaseHPE)
+
+For a hydrostatic test case, returns the initial geopotential, velocity
+and composition at given latitude, longitude and pressure.
+"""
 function initial_flow end
+
+"""
+    ps, Phis = initial_surface(lon, lat, case::TestCaseHPE)
+
+For a hydrostatic test case, returns the initial surface pressure and geopotential
+at given latitude and longitude.
+"""
 function initial_surface end
+
+"""
+    string = describe(case::TestCase)
+
+Plain text description of `case`, possibly multi-line.
+"""
 function describe end
 
 Base.show(io::IO, case::TestCase) = print(io, describe(case))
