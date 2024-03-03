@@ -1,5 +1,10 @@
 #================= DCMIP4.2 : (optionnaly sheared) solid-body rotation ===============#
 
+"""
+    struct DCMIP{N} <: TestCaseHPE
+
+Type for DCMIP 2012 test cases. Currently only N=42 (test case 4.2) is implemented.
+"""
 struct DCMIP{N,P} <: TestCaseHPE
     params :: P
     DCMIP{42}(params) = let p=params[(:p0, :u0, :pv0, :c)]

@@ -4,11 +4,11 @@ CurrentModule = ClimFlowsTestCases
 
 # ClimFlowsTestCases
 
-Documentation for [ClimFlowsTestCases](https://github.com/dubosipsl/ClimFlowsTestCases.jl).
+Documentation for [ClimFlowsTestCases](https://github.com/ClimFLows/ClimFlowsTestCases.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [ClimFlowsTestCases]
+Modules = [ClimFlowsTestCases, ClimFlowsTestCases.priv]
 ```

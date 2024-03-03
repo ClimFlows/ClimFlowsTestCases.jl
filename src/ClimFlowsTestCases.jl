@@ -36,6 +36,8 @@ function describe end
 Base.show(io::IO, case::TestCase) = print(io, describe(case))
 
 """
+    module priv
+
 This module contains implementation detail that may change between non-breaking versions.
 """
 module priv
