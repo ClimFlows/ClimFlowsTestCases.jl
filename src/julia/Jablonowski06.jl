@@ -20,7 +20,10 @@ function default_params(::Type{J06})
     return ( Uplanet=R0*Omega, gH0=T0*g/Gamma, pV0=Rd*T0, delta_pV=Rd * DeltaT, params... )
 end
 
-describe(case::J06) = "Jablonowski06 test case for baroclinic instability with parameters $(case.params)."
+function describe(case::J06)
+    params = join(("    $first=$second" for (;first, second) in pairs(case.params)), "\n")
+    "Jablonowski06 test case for baroclinic instability with parameters: \n$params"
+end
 
 function initial_surface(lon, lat, case::J06)
     ps = case.params.ps

@@ -25,7 +25,7 @@ More about named tuples [here](https://stackoverflow.com/questions/60883704/how-
 """
 function default_params() end
 
-function default_testcase(Case::Type{TC}, F::Type{FF}) where { TC<:TestCase, FF<:Real }
+function default_testcase(Case::Type{TC}, F::Type{FF}=Float64) where { TC<:TestCase, FF<:Real }
     Case(map(F, default_params(Case)))
 end
 
@@ -40,7 +40,6 @@ This module contains implementation detail that may change between non-breaking 
 """
 module priv
 
-import ..ClimFlowsTestCases as Parent
 using ..ClimFlowsTestCases: TestCase, TestCaseSW, TestCaseHPE
 import ..ClimFlowsTestCases: default_params, describe, initial_flow, initial_surface
 
