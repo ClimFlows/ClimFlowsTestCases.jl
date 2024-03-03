@@ -18,6 +18,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/ClimFLows/ClimFlowsTestCases.jl",
+    repo="github.com/ClimFLows/ClimFlowsTestCases.jl.git",
     devbranch="main",
 )
