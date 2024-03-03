@@ -2,7 +2,7 @@ import ClimFlowsTestCases as TC
 using Test
 
 function check_case(Case::Type, F=Float32)
-    case = TC.default_testcase(Case, F)
+    case = TC.testcase(Case, F)
     @info TC.describe(case)
     check_values(case, F)
     true

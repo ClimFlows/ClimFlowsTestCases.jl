@@ -3,7 +3,14 @@ module ClimFlowsTestCases
 """
     abstract type TestCase end
 
-Parent type for test case types.
+Parent type for test case types. Derived type must implement a constructor
+accepting a named tuple of parameters and the function [`default_params`](@ref).
+For example:
+
+    TC = Williams91{6}
+    params = default_params(TC)
+    case = TC((params..., R0=3e-3))
+
 """
 abstract type TestCase end
 # @inline Base.getproperty(case::TestCase, name) = getproperty(getfield(case,:params), name)
@@ -26,13 +33,18 @@ More about named tuples [here](https://stackoverflow.com/questions/60883704/how-
 function default_params() end
 
 """
-    case = default_testcase(Case::Type, F=Float64)
-    w91_6 = default_testcase(Williamson91{6}, Float32)
+    case = testcase(Case::Type, F=Float64 ; params...)
 
-Returns `case`, the test case with default parameters for case `Case`.
+Returns a test case with default parameters for case `Case` with floating-point
+precision `F`. Optional `params` override the default parameters for the test case. For example:
+
+    w91_6 = testcase(Williamson91{6}) # Float64, default parameters
+    w91_6 = testcase(Williamson91{6}, Float32 ; R0=1e-3) # Float32, overrides R0 (planetary radius)
 """
-function default_testcase(Case::Type{TC}, F::Type{FF}=Float64) where { TC<:TestCase, FF<:Real }
-    Case(map(F, default_params(Case)))
+function testcase(Case::Type{TC}, F::Type{FF}=Float64; kwargs...) where { TC<:TestCase, FF<:Real }
+    params = default_params(Case)
+    params = (; params..., kwargs...)
+    Case(map(F, params))
 end
 
 """
