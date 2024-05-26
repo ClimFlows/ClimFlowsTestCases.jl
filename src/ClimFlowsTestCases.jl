@@ -48,12 +48,12 @@ function testcase(Case::Type{TC}, F::Type{FF}=Float64; kwargs...) where { TC<:Te
 end
 
 """
-    ulon, ulat, gH = initial_flow(lon, lat, case::TestCaseSW)
+    gh, ulon, ulat = initial_flow(lon, lat, case::TestCaseSW)
 
 For a shallow-water test case, returns the initial geopotential thickness and velocity
 at given latitude and longitude.
 
-    gH, ulon, ulat, q = initial_flow(lon, lat, p, case::TestCaseHPE)
+    Phi, ulon, ulat, q = initial_flow(lon, lat, p, case::TestCaseHPE)
 
 For a hydrostatic test case, returns the initial geopotential, velocity
 and composition at given latitude, longitude and pressure.
