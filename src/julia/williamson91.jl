@@ -1,16 +1,19 @@
 struct Williamson91{N,P} <: TestCaseSW
     params::P
     # The syntax params[(...)] extracts only the parameters relevant for the test case
-    Williamson91{6}(params) = let p=params[(:R0, :Omega, :gH0, :K, :n)]
+    function Williamson91{6}(F=Float64; user...) 
+        choices = override(Int, (n=4,), user)
+        params = override(F, (R0=6.4e6, Omega=2*pi/86400., gH0=1.0e4, K=7.848e-6), user)
+        p = merge(choices, params)
         new{6, typeof(p)}(p)
     end
-    Williamson91{2}(params) = let p=params[(:R0, :Omega, :gH0, :u0, :alpha)]
+    function Williamson91{2}(F=Float64; user...)
+        p = override(F, (R0=6.4e6, Omega=2*pi/86400., gH0=2.94e4, u0=2*pi*6.4e6/(12*86400), alpha=0.0), user)
         new{2, typeof(p)}(p)
     end
 end
 
-W91_6 = Williamson91{6}
-default_params(::Type{W91_6}) = (R0=6.4e6, Omega=2*pi/86400., gH0=1.0e4, K=7.848e-6, n=4)
+const W91_6 = Williamson91{6}
 
 function describe(case::W91_6)
     (; n, K, Omega) = case.params
@@ -22,7 +25,7 @@ function describe(case::W91_6)
     """
 end
 
-function initial_flow(lon, lat, case::W91_6)
+function initial(case::W91_6, lon, lat)
     (; n, K, Omega, R0, gH0) = case.params
     u = R0*K*( cos(lat) + (cos(lat)^(n-1))*(n*sin(lat)^2 - cos(lat)^2) *cos(n*lon) )
     v = -R0*K*n*(cos(lat)^(n-1))*sin(lat)*sin(n*lon)
@@ -36,11 +39,10 @@ function initial_flow(lon, lat, case::W91_6)
 end
 
 const W91_2 = Williamson91{2}
-default_params(::Type{W91_2}) = (R0=6.4e6, Omega=2*pi/86400., gH0=2.94e4, u0=2*pi*6.4e6/(12*86400), alpha=0.0)
 
 describe(::W91_2) = "Williamson 1991 test case number 2 (Global steady state nonlinear geostrophic flow)."
 
-function initial_flow(lon, lat, case::W91_2)
+function initial(case::W91_2, lon, lat)
     (; R0, Omega, gH0, u0, alpha) = case.params
     u = u0*( cos(lat)*cos(alpha) + cos(lon)*sin(lat)*sin(alpha) )
     v = -u0*sin(lon)*sin(alpha)
