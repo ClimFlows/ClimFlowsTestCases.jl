@@ -2,32 +2,29 @@
 
 struct Jablonowski06{P} <: TestCaseHPE
     params::P
-    function Jablonowski06(params)
-        p=params[(:Uplanet, :gH0, :pV0, :delta_pV, :ps, :u0, :eta0, :etat, :etas,
-                :up, :lonc, :latc, :q0, :pw, :latw)]
+    function Jablonowski06(F=Float64; user...)
+        other = ( ps=1e5, u0=35.0, eta0=0.252, etat=0.2, etas=1.0, up=1.0, lonc=pi/9, latc=2pi/9, q0=0.021, pw=340*1e2, latw=2*pi/9 )
+        R0, Omega, g, T0, DeltaT, Gamma, Rd = 6.4e6, 2pi/86400., 9.80616, 288.0, 4.8e5, 0.005, 287.0
+        defaults = merge( (Uplanet=R0*Omega, gH0=T0*g/Gamma, pV0=Rd*T0, delta_pV=Rd * DeltaT), other)
+        p = override(F, defaults, user)
         new{typeof(p)}(p)
     end
 end
 
 const J06 = Jablonowski06
-function default_params(::Type{J06})
-    params = ( ps=1e5, u0=35.0, eta0=0.252, etat=0.2, etas=1.0, up=1.0, lonc=pi/9, latc=2pi/9, q0=0.021, pw=340*1e2, latw=2*pi/9 )
-    R0, Omega, g, T0, DeltaT, Gamma, Rd = 6.4e6, 2pi/86400., 9.80616, 288.0, 4.8e5, 0.005, 287.0
-    return ( Uplanet=R0*Omega, gH0=T0*g/Gamma, pV0=Rd*T0, delta_pV=Rd * DeltaT, params... )
-end
 
 function describe(case::J06)
     params = join(("    $first=$second" for (;first, second) in pairs(case.params)), "\n")
     "Jablonowski06 test case for baroclinic instability with parameters: \n$params"
 end
 
-function initial_surface(lon, lat, case::J06)
+function initial(case::J06, lon, lat)
     ps = case.params.ps
-    Phis, _, _, _ = initial_flow(lon, lat, ps, case)
+    Phis, _, _, _ = initial(case, lon, lat, ps)
     return ps, Phis
 end
 
-function initial_flow(lon, lat, p, case::J06)
+function initial(case::J06, lon, lat, p)
     (; Uplanet, gH0, pV0, delta_pV, ps, u0, eta0, etat, etas, latc, lonc, up, q0, pw, latw ) = case.params
     F=typeof(p)
 

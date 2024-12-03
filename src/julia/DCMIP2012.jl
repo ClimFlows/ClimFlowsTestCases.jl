@@ -2,30 +2,27 @@
 
 struct DCMIP{N,P} <: TestCaseHPE
     params :: P
-    DCMIP{42}(params) = let p=params[(:p0, :u0, :pv0, :c)]
+    function DCMIP{42}(F=Float64; user...) 
+        T0, Rd = 300.0, 287.0
+        p = override(F, (p0=1e5, u0=20.0, pv0=Rd*T0, c=0.0), user)
         new{42, typeof(p)}(p)
     end
 end
 
 const DCMIP42 = DCMIP{42}
 
-function default_params(::Type{DCMIP42})
-    T0, Rd = 300.0, 287.0
-    return (p0=1e5, u0=20.0, pv0=Rd*T0, c=0.0)
-end
-
 function describe(case::DCMIP42)
     (; p0, u0, pv0, c) = case.params
     "DCMIP 4.2 test case with reference values p=$p0, u=$u0, rho=$(p0/pv0), du/dPhi=$(c*u0)"
 end
 
-function initial_surface(lon, lat, case::DCMIP42)
+function initial(case::DCMIP42, lon, lat)
     p0 = case.params.p0
-    Phi, _, _, _ = initial_flow(lon, lat, p0, case)
+    Phi, _, _, _ = initial(case, lon, lat, p0)
     return p0, Phi
 end
 
-function initial_flow(lon, lat, p, case::DCMIP42)
+function initial(case::DCMIP42, lon, lat, p)
     (; p0, u0, pv0, c) = case.params
     # Eq numbers refer to DCMIP-TestCaseDocument_v1.6_23Jul2012
     # (81) => Pv(lat) = Pv_eq - c u_eq^2 sin^2 lat  (c u_eq ~ du/dPhi at the surface)
@@ -38,4 +35,3 @@ function initial_flow(lon, lat, p, case::DCMIP42)
     ulon, z = u0*clat*sqrt(pv/pv0 + 2c*Phi*pv0/pv ), zero(pv)
     return Phi, ulon, z, z
 end
-
