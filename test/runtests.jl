@@ -10,13 +10,13 @@ end
 
 function check_values(case::TC.TestCaseSW, F)
     lon, lat = map(F, (0.0, 0.0))
-    @info TC.initial(case, lon, lat)
+    @info case(lon, lat)
 end
 
 function check_values(case::TC.TestCaseHPE, F)
     lon, lat, p = map(F, (0.0, 0.0, 1e5))
     @info TC.initial(case, lon, lat)
-    @info TC.initial(case, lon, lat, p)
+    @info case(lon, lat, p)
 end
 
 @testset "ClimFlowsTestCases.jl" begin

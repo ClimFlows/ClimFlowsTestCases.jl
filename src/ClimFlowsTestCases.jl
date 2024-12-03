@@ -50,6 +50,8 @@ Plain text description of `case`, possibly multi-line.
 function describe end
 
 Base.show(io::IO, case::TestCase) = print(io, describe(case))
+(case::TestCase)(lon, lat) = initial(case, lon, lat)
+(case::TestCaseHPE)(lon, lat, p) = initial(case, lon, lat, p)
 
 # Implementation details that may change between non-breaking versions.
 module priv
