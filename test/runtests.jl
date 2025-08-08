@@ -23,5 +23,6 @@ end
     @test check_case(TC.Williamson91{2})
     @test check_case(TC.Williamson91{6})
     @test check_case(TC.Jablonowski06)
+    @test check_case(TC.DCMIP{21})
     @test check_case(TC.DCMIP{42})
 end
