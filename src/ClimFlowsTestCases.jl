@@ -71,6 +71,8 @@ include("julia/isothermal.jl")
 
 override(F, defaults, params) = map(F, merge(defaults, params)[propertynames(defaults)])
 
+dist((lon,lat),(lonc,latc)) = acos(sin(latc)*sin(lat)+cos(latc)*cos(lat)*cos(lon-lonc)) # distance on the unit sphere
+
 end # priv
 
 using .priv
