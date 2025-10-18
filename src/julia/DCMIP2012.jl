@@ -38,7 +38,7 @@ struct DCMIP{N,P} <: TestCaseHPE
         # non-generic parameters
         X = 500
         Rd, radius, g = 287.0, 6.37122e6/X, 9.81 # from DCMIP 2012 document v1.6_23 p.4
-        T0, d, xi, h0 = 300.0, 5000.0, 400.0, 250.0 # from DCMIP 2012 document v1.6_23 p.30
+        T0, d, xi, h0 = 300.0, 5000.0, 4000.0, 250.0 # from DCMIP 2012 document v1.6_23 p.30
         mountain = (lambda_m=pi/4, phi_m=0.0, delta_m=d/radius, xi_m=xi/radius, Phi_m=h0*g)
         p = override(F, (p0=1e5, pv0=Rd*T0, u0=20.0, mountain...), user)
         new{21, typeof(p)}(p)
