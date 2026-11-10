@@ -13,65 +13,25 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 jobs:
   test:
-    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
-    permissions: # needed to allow julia-actions/cache to proactively delete old caches that it has created
+    permissions:
       actions: write
       contents: read
     strategy:
       fail-fast: false
       matrix:
-        version:
-          - '1.8'
-          - '1.9'
-          - 'pre'
-        os:
-          - ubuntu-latest
-        arch:
-          - x64
-    steps:
-      - uses: actions/checkout@v6
-      - uses: julia-actions/setup-julia@v3
-        with:
-          version: ${{ matrix.version }}
-          arch: ${{ matrix.arch }}
-      - uses: julia-actions/cache@v3
-      - uses: julia-actions/julia-buildpkg@v1
-      - uses: julia-actions/julia-runtest@v1
-      - uses: julia-actions/julia-processcoverage@v1
-      - uses: codecov/codecov-action@v6
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false  # or true if you want CI to fail when Codecov fails
-          files: lcov.info
+        version: ['1.8', '1.9', '1.10', 'pre']
+    uses: ClimFlows/.github/.github/workflows/test.yml@main
+    with:
+      version: ${{ matrix.version }}
+      downgrade_version: '1.10'
+    secrets: inherit
+
   docs:
-    name: Documentation
-    runs-on: ubuntu-latest
     permissions:
-      actions: write # needed to allow julia-actions/cache to proactively delete old caches that it has created
+      actions: write
       contents: write
       statuses: write
-    steps:
-      - uses: actions/checkout@v6
-      - uses: julia-actions/setup-julia@v3
-        with:
-          version: '1'
-      - uses: julia-actions/cache@v3
-      - name: Configure doc environment
-        shell: julia --project=docs --color=yes {0}
-        run: |
-          using Pkg
-          Pkg.develop(PackageSpec(path=pwd()))
-          Pkg.instantiate()
-      - uses: julia-actions/julia-buildpkg@v1
-      - uses: julia-actions/julia-docdeploy@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run doctests
-        shell: julia --project=docs --color=yes {0}
-        run: |
-          using Documenter: DocMeta, doctest
-          using ClimFlowsTestCases
-          DocMeta.setdocmeta!(ClimFlowsTestCases, :DocTestSetup, :(using ClimFlowsTestCases); recursive=true)
-          doctest(ClimFlowsTestCases)
+    uses: ClimFlows/.github/.github/workflows/docs.yml@main
+    with:
+      package: ClimFlowsTestCases
+    secrets: inherit
